@@ -1,0 +1,34 @@
+{
+  "name": "node-utils",
+  "version": "0.0.0",
+  "description": "Utilities library for Node.js",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuiGaIb/node-utils.git"
+  },
+  "keywords": [
+    "node",
+    "ts",
+    "utils",
+    "lib"
+  ],
+  "author": "GuiGaIb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GuiGaIb/node-utils/issues"
+  },
+  "homepage": "https://github.com/GuiGaIb/node-utils#readme",
+  "engines": {
+    "node": ">=18.20.4",
+    "npm": ">=10.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.51",
+    "typescript": "^5.6.2"
+  }
+}
