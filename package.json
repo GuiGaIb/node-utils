@@ -1,6 +1,6 @@
 {
   "name": "node-utils",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Utilities library for Node.js",
   "main": "index.js",
   "type": "module",
@@ -47,6 +47,10 @@
     "./errors": {
       "types": "./errors.d.ts",
       "default": "./errors.js"
+    },
+    "./config": {
+      "types": "./config.d.ts",
+      "default": "./config.js"
     }
   }
 }
