@@ -7,3 +7,6 @@ node_modules/
 
 # TS build cache
 *.tsbuildinfo
+
+# Build files
+build/
