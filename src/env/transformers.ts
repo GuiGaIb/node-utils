@@ -1,4 +1,3 @@
-// env/transformers.ts
 /**
  * Converts a string to a boolean. The following values are considered `true`: `"true"` (case insensitive), `"1"`.
  * @param value - The string to convert.

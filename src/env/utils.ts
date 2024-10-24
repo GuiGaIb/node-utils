@@ -2,9 +2,10 @@ import {
   EnvMissingError,
   EnvTransformError,
   EnvValidationError,
-} from '../errors/env';
-import { logError } from '../errors/utils';
-import { Validator } from './validators';
+} from '../errors/env.js';
+import { logError } from '../errors/utils.js';
+import type { Validator } from './validators.js';
+import Config from '../config.js';
 
 const envCache = new Map<string, any>();
 
@@ -50,12 +51,8 @@ export function requireEnv<T = string>(
     defaultValue,
     validators = [],
     transformer = (val) => val as T,
-    defaultWarning = /^(true|1)$/i.test(
-      process.env.NODE_UTILS_ENV_CLEAR_ERROR_STACK || ''
-    ),
-    maskValue = /^(true|1)$/i.test(
-      process.env.NODE_UTILS_ENV_ENV_MASK_VALUE || ''
-    ),
+    defaultWarning = Config.defaultWarnings,
+    maskValue = Config.maskValues,
   } = options;
 
   if (defaultValue !== undefined) {
@@ -83,9 +80,9 @@ export function requireEnv<T = string>(
   } catch (error) {
     throw logError(
       new EnvTransformError(`Failed to transform "${prefixedName}"`, {
-        cause: String(error),
-      }),
-      { value }
+        cause: error,
+        verboseData: { value },
+      })
     );
   }
 
@@ -106,7 +103,9 @@ function runValidators<T>(name: string, value: T, validators: Validator<T>[]) {
   validators.forEach((validator) => {
     const errorMessage = validator(value);
     if (errorMessage) {
-      throw logError(new EnvValidationError(name, errorMessage), { value });
+      throw logError(
+        new EnvValidationError(name, errorMessage, { verboseData: { value } })
+      );
     }
   });
 }
