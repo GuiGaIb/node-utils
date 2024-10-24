@@ -1,14 +1,13 @@
 {
   "name": "node-utils",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Utilities library for Node.js",
   "main": "index.js",
+  "type": "module",
   "types": "index.d.ts",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "build": "tsc",
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
+    "build": "tsc -p tsconfig.build.json",
     "docs": "typedoc src/index.ts"
   },
   "repository": {
@@ -32,11 +31,22 @@
     "npm": ">=10.7.0"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.13",
     "@types/node": "^18.19.51",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.2.5",
     "typedoc": "^0.26.7",
     "typescript": "^5.6.2"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./env": {
+      "types": "./env.d.ts",
+      "default": "./env.js"
+    },
+    "./errors": {
+      "types": "./errors.d.ts",
+      "default": "./errors.js"
+    }
   }
 }
