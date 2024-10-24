@@ -1,18 +1,15 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.requireEnv = requireEnv;
-exports.clearEnvCache = clearEnvCache;
-const env_1 = require("../errors/env");
-const utils_1 = require("../errors/utils");
+import { EnvMissingError, EnvTransformError, EnvValidationError, } from '../errors/env.js';
+import { logError } from '../errors/utils.js';
+import Config from '../config.js';
 const envCache = new Map();
-function requireEnv(name, options = {}, prefix = '') {
+export function requireEnv(name, options = {}, prefix = '') {
     const prefixedName = prefix ? `${prefix}_${name}` : name;
     const cacheKey = JSON.stringify({ prefixedName, options });
     if (envCache.has(cacheKey)) {
         return envCache.get(cacheKey);
     }
     const value = process.env[prefixedName];
-    const { defaultValue, validators = [], transformer = (val) => val, defaultWarning = /^(true|1)$/i.test(process.env.NODE_UTILS_ENV_CLEAR_ERROR_STACK || ''), maskValue = /^(true|1)$/i.test(process.env.NODE_UTILS_ENV_ENV_MASK_VALUE || ''), } = options;
+    const { defaultValue, validators = [], transformer = (val) => val, defaultWarning = Config.defaultWarnings, maskValue = Config.maskValues, } = options;
     if (defaultValue !== undefined) {
         runValidators(prefixedName, defaultValue, validators);
     }
@@ -24,16 +21,17 @@ function requireEnv(name, options = {}, prefix = '') {
             envCache.set(cacheKey, defaultValue);
             return defaultValue;
         }
-        throw (0, utils_1.logError)(new env_1.EnvMissingError(prefixedName));
+        throw logError(new EnvMissingError(prefixedName));
     }
     let transformedValue;
     try {
         transformedValue = transformer(value);
     }
     catch (error) {
-        throw (0, utils_1.logError)(new env_1.EnvTransformError(`Failed to transform "${prefixedName}"`, {
-            cause: String(error),
-        }), { value });
+        throw logError(new EnvTransformError(`Failed to transform "${prefixedName}"`, {
+            cause: error,
+            verboseData: { value },
+        }));
     }
     runValidators(prefixedName, transformedValue, validators);
     envCache.set(cacheKey, transformedValue);
@@ -50,7 +48,7 @@ function runValidators(name, value, validators) {
     validators.forEach((validator) => {
         const errorMessage = validator(value);
         if (errorMessage) {
-            throw (0, utils_1.logError)(new env_1.EnvValidationError(name, errorMessage), { value });
+            throw logError(new EnvValidationError(name, errorMessage, { verboseData: { value } }));
         }
     });
 }
@@ -58,6 +56,6 @@ function runValidators(name, value, validators) {
  * Clear the environment cache
  * @category Env
  */
-function clearEnvCache() {
+export function clearEnvCache() {
     envCache.clear();
 }

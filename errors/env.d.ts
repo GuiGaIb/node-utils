@@ -1,17 +1,16 @@
+import { CustomError, type CustomErrorOptions } from './base.js';
 /**
  * Abstract base class for all environment variable errors
  * @extends Error
  * @category Errors
  */
-export declare abstract class EnvError extends Error {
+export declare abstract class EnvError extends CustomError {
     /**
      * Creates an instance of EnvError.
      * @param message - The error message.
-     * @param cause - The original error or reason for the failure.
+     * @param options - {@link CustomErrorOptions}
      */
-    constructor(message: string, cause?: any);
-    /** The cause that originated the error */
-    cause?: any;
+    constructor(message: string, options?: CustomErrorOptions);
 }
 /**
  * Error thrown when a required environment variable is missing
@@ -22,9 +21,9 @@ export declare class EnvMissingError extends EnvError {
     /**
      * Creates an instance of `EnvMissingError`.
      * @param name - The name of the missing environment variable
-     * @param cause - The cause that originated the error
+     * @param options - {@link CustomErrorOptions}
      */
-    constructor(name: string, cause?: any);
+    constructor(name: string, options?: CustomErrorOptions);
 }
 /**
  * Error thrown when a default value for an environment variable is invalid.
@@ -35,9 +34,9 @@ export declare class EnvDefaultError extends EnvError {
     /**
      * Creates an instance of `EnvDefaultError`.
      * @param name - The name of the environment variable
-     * @param cause - The cause that originated the error
+     * @param options - {@link CustomErrorOptions}
      */
-    constructor(name: string, cause?: any);
+    constructor(name: string, options?: CustomErrorOptions);
 }
 /**
  * Error thrown when a transformation function for an environment variable fails
@@ -48,9 +47,9 @@ export declare class EnvTransformError extends EnvError {
     /**
      * Creates an instance of `EnvTransformError`.
      * @param name - The name of the environment variable
-     * @param cause - The cause that originated the error
+     * @param options - {@link CustomErrorOptions}
      */
-    constructor(name: string, cause: any);
+    constructor(name: string, options: CustomErrorOptions);
 }
 /**
  * Error thrown when a validation function for an environment variable fails.
@@ -62,7 +61,7 @@ export declare class EnvValidationError extends EnvError {
      * Creates an instance of `EnvValidationError`.
      * @param name - The name of the environment variable
      * @param message - The error message
-     * @param cause - The cause that originated the error
+     * @param options - {@link CustomErrorOptions}
      */
-    constructor(name: string, message?: string, cause?: any);
+    constructor(name: string, message?: string, options?: CustomErrorOptions);
 }

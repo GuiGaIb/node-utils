@@ -1,4 +1,4 @@
-import { Validator } from './validators';
+import type { Validator } from './validators.js';
 /**
  * Require an environment variable
  * @param name - The name of the environment variable

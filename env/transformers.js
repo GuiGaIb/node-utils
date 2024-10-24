@@ -1,10 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.toBoolean = toBoolean;
-exports.toNumber = toNumber;
-exports.toInt = toInt;
-exports.toJSON = toJSON;
-// env/transformers.ts
 /**
  * Converts a string to a boolean. The following values are considered `true`: `"true"` (case insensitive), `"1"`.
  * @param value - The string to convert.
@@ -12,7 +5,7 @@ exports.toJSON = toJSON;
  * @throws If the value cannot be converted to a boolean.
  * @category EnvTransformers
  */
-function toBoolean(value) {
+export function toBoolean(value) {
     const lower = value.toLowerCase();
     if (lower === 'true' || lower === '1')
         return true;
@@ -27,7 +20,7 @@ function toBoolean(value) {
  * @throws If the value cannot be converted to a number.
  * @category EnvTransformers
  */
-function toNumber(value) {
+export function toNumber(value) {
     const num = Number(value);
     if (isNaN(num))
         throw new Error(`Cannot convert "${value}" to number.`);
@@ -40,7 +33,7 @@ function toNumber(value) {
  * @throws If the value cannot be converted to an integer.
  * @category EnvTransformers
  */
-function toInt(value) {
+export function toInt(value) {
     const int = parseInt(value, 10);
     if (isNaN(int))
         throw new Error(`Cannot convert "${value}" to integer.`);
@@ -53,7 +46,7 @@ function toInt(value) {
  * @throws If the string cannot be parsed as JSON.
  * @category EnvTransformers
  */
-function toJSON(value) {
+export function toJSON(value) {
     try {
         return JSON.parse(value);
     }

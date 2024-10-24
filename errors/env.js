@@ -1,88 +1,77 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.EnvValidationError = exports.EnvTransformError = exports.EnvDefaultError = exports.EnvMissingError = exports.EnvError = void 0;
+import { CustomError } from './base.js';
 /**
  * Abstract base class for all environment variable errors
  * @extends Error
  * @category Errors
  */
-class EnvError extends Error {
+export class EnvError extends CustomError {
     /**
      * Creates an instance of EnvError.
      * @param message - The error message.
-     * @param cause - The original error or reason for the failure.
+     * @param options - {@link CustomErrorOptions}
      */
-    constructor(message, cause) {
-        super(message);
-        this.cause = cause;
-        Object.setPrototypeOf(this, new.target.prototype);
+    constructor(message, options) {
+        super(message, options);
     }
-    /** The cause that originated the error */
-    cause;
 }
-exports.EnvError = EnvError;
 /**
  * Error thrown when a required environment variable is missing
  * @extends EnvError
  * @category Errors
  */
-class EnvMissingError extends EnvError {
+export class EnvMissingError extends EnvError {
     /**
      * Creates an instance of `EnvMissingError`.
      * @param name - The name of the missing environment variable
-     * @param cause - The cause that originated the error
+     * @param options - {@link CustomErrorOptions}
      */
-    constructor(name, cause) {
-        super(`Missing required environment variable "${name}"`, cause);
+    constructor(name, options) {
+        super(`Missing required environment variable "${name}"`, options);
     }
 }
-exports.EnvMissingError = EnvMissingError;
 /**
  * Error thrown when a default value for an environment variable is invalid.
  * @extends EnvError
  * @category Errors
  */
-class EnvDefaultError extends EnvError {
+export class EnvDefaultError extends EnvError {
     /**
      * Creates an instance of `EnvDefaultError`.
      * @param name - The name of the environment variable
-     * @param cause - The cause that originated the error
+     * @param options - {@link CustomErrorOptions}
      */
-    constructor(name, cause) {
-        super(`Invalid default value for environment variable "${name}"`, cause);
+    constructor(name, options) {
+        super(`Invalid default value for environment variable "${name}"`, options);
     }
 }
-exports.EnvDefaultError = EnvDefaultError;
 /**
  * Error thrown when a transformation function for an environment variable fails
  * @extends EnvError
  * @category Errors
  */
-class EnvTransformError extends EnvError {
+export class EnvTransformError extends EnvError {
     /**
      * Creates an instance of `EnvTransformError`.
      * @param name - The name of the environment variable
-     * @param cause - The cause that originated the error
+     * @param options - {@link CustomErrorOptions}
      */
-    constructor(name, cause) {
-        super(`Failed to transform environment variable "${name}"`, cause);
+    constructor(name, options) {
+        super(`Failed to transform environment variable "${name}"`, options);
     }
 }
-exports.EnvTransformError = EnvTransformError;
 /**
  * Error thrown when a validation function for an environment variable fails.
  * @extends EnvError
  * @category Errors
  */
-class EnvValidationError extends EnvError {
+export class EnvValidationError extends EnvError {
     /**
      * Creates an instance of `EnvValidationError`.
      * @param name - The name of the environment variable
      * @param message - The error message
-     * @param cause - The cause that originated the error
+     * @param options - {@link CustomErrorOptions}
      */
-    constructor(name, message, cause) {
-        super(`Invalid value for environment variable "${name}": ${message || ''}`, cause);
+    constructor(name, message, options) {
+        super(`Invalid value for environment variable "${name}": ${message || ''}`, options);
     }
 }
-exports.EnvValidationError = EnvValidationError;
